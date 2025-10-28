@@ -3,7 +3,10 @@ package parser
 import (
 	"fmt"
 	models "miniproject/model"
+	"path/filepath"
 
+	"bufio"
+	"os"
 	"regexp"
 	"time"
 )
@@ -35,4 +38,39 @@ func LogParseEntry(s string) (*models.LogEntry, error) {
 		Message:   result["msg"],
 	}
 	return &entry, nil
+}
+func ParseLogFiles(directory string) ([]models.LogEntry, error) {
+	var allEntries []models.LogEntry
+	files, err := os.ReadDir(directory)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read directory : %v", err)
+	}
+	for _, file := range files {
+		if file.IsDir() {
+			continue
+		}
+		filepath := filepath.Join(directory, file.Name())
+		f, err := os.Open(filepath)
+		if err != nil {
+			fmt.Printf("Skipping file %s due to error: %v\n", filepath, err)
+			continue
+		}
+		scanner := bufio.NewScanner(f)
+		scanner.Buffer(make([]byte, 0, 1024*1024), 10*1024*1024)
+
+		for scanner.Scan() {
+			line := scanner.Text()
+			entry, err := LogParseEntry(line)
+			if err == nil {
+				allEntries = append(allEntries, *entry)
+			}
+		}
+		err = scanner.Err()
+		if err != nil {
+			fmt.Printf("Error reading file %s due to error :%v.", filepath, err)
+		}
+		f.Close()
+
+	}
+	return allEntries, nil
 }
