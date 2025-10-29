@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"miniproject/parser"
+	"miniproject/segment"
 )
 
 // func main() {
@@ -21,9 +21,9 @@ import (
 //		fmt.Println("Message:", entry.Message)
 //	}
 func main() {
-	entries, _ := parser.ParseLogFiles("../logs")
-	for _, entry := range entries {
-		fmt.Println(entry)
-	}
-	fmt.Println(len(entries))
+	LogStore, _ := segment.ParseLogSegments("../logs")
+	// for _, segment := range LogStore.Segments {
+	// 	fmt.Println(segment)
+	// }
+	fmt.Println(LogStore.Segments[0])
 }

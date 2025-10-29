@@ -1,0 +1,15 @@
+mode: set
+miniproject/segment/segment.go:14.61,19.16 3 1
+miniproject/segment/segment.go:19.16,21.3 1 1
+miniproject/segment/segment.go:22.2,22.29 1 1
+miniproject/segment/segment.go:22.29,23.19 1 1
+miniproject/segment/segment.go:23.19,24.12 1 1
+miniproject/segment/segment.go:26.3,28.17 3 1
+miniproject/segment/segment.go:28.17,30.4 1 0
+miniproject/segment/segment.go:31.3,35.22 4 1
+miniproject/segment/segment.go:35.22,38.18 3 1
+miniproject/segment/segment.go:38.18,40.5 1 1
+miniproject/segment/segment.go:42.3,43.27 2 1
+miniproject/segment/segment.go:43.27,44.12 1 1
+miniproject/segment/segment.go:46.3,54.57 3 1
+miniproject/segment/segment.go:56.2,56.22 1 1

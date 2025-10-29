@@ -106,7 +106,6 @@ func TestParseLogFilesInvalidLog(t *testing.T) {
 		t.Fatalf("Unexpected error: %v", err)
 	}
 
-	// no valid entries should be parsed
 	if len(entries) != 0 {
 		t.Errorf("Expected 0 valid entries, got %d", len(entries))
 	}
@@ -119,7 +118,7 @@ func TestParseLogFilesUnreadableFile(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create unreadable file: %v", err)
 	}
-	defer os.Chmod(badFile, 0644) // reset permission after test
+	defer os.Chmod(badFile, 0644)
 
 	_, err = ParseLogFiles(tmpDir)
 	if err != nil {
