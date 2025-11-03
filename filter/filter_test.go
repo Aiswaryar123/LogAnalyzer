@@ -108,7 +108,7 @@ func TestCombinedLevelAndComponent(t *testing.T) {
 	}
 }
 func TestEmptyStore(t *testing.T) {
-	store := models.LogStore{} // no segments
+	store := models.LogStore{}
 	got := FilterLogs(store, nil, nil, nil, nil, time.Time{}, time.Time{})
 	if len(got) != 0 {
 		t.Errorf("expected 0 logs for empty store, got %d", len(got))
@@ -125,7 +125,7 @@ func TestSkipSegmentBeforeStartTime(t *testing.T) {
 			},
 		},
 	}
-	startTime := now // segment ends before this → should skip
+	startTime := now
 	endTime := time.Time{}
 
 	result := FilterLogs(store, nil, nil, nil, nil, startTime, endTime)
@@ -144,7 +144,7 @@ func TestSkipSegmentAfterEndTime(t *testing.T) {
 			},
 		},
 	}
-	endTime := now // segment starts after → should skip
+	endTime := now
 	startTime := time.Time{}
 
 	result := FilterLogs(store, nil, nil, nil, nil, startTime, endTime)
@@ -205,7 +205,7 @@ func TestMatchedEntryBeforeStartTime(t *testing.T) {
 	}
 	store := models.LogStore{Segments: []models.Segment{segment}}
 
-	startTime := now.Add(-1 * time.Hour) // after entry time
+	startTime := now.Add(-1 * time.Hour)
 	endTime := time.Time{}
 
 	result := FilterLogs(store, []string{"INFO"}, nil, nil, nil, startTime, endTime)
@@ -231,7 +231,7 @@ func TestMatchedEntryAfterEndTime(t *testing.T) {
 	store := models.LogStore{Segments: []models.Segment{segment}}
 
 	startTime := time.Time{}
-	endTime := now.Add(1 * time.Hour) // before entry time
+	endTime := now.Add(1 * time.Hour)
 
 	result := FilterLogs(store, []string{"INFO"}, nil, nil, nil, startTime, endTime)
 	if len(result) != 0 {
