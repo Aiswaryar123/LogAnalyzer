@@ -35,25 +35,21 @@ func commandHandler(args []string) error {
 
 		for _, p := range entries {
 
-			// Look up LevelID
 			var level database.LogLevel
 			if err := db.First(&level, "level = ?", string(p.Level)).Error; err != nil {
 				return fmt.Errorf("unknown level %s: %w", p.Level, err)
 			}
 
-			//  Look up ComponentID
 			var component database.LogComponent
 			if err := db.First(&component, "component = ?", p.Component).Error; err != nil {
 				return fmt.Errorf("unknown component %s: %w", p.Component, err)
 			}
 
-			//  Look up HostID
 			var host database.LogHost
 			if err := db.First(&host, "host = ?", p.Host).Error; err != nil {
 				return fmt.Errorf("unknown host %s: %w", p.Host, err)
 			}
 
-			//  Create Entry WITH foreign keys
 			dbEntry := database.Entry{
 				TimeStamp:   p.Time,
 				LevelID:     level.ID,
@@ -72,7 +68,7 @@ func commandHandler(args []string) error {
 	case "query":
 		queryList := args[1:]
 		fmt.Println(queryList)
-		//queries := strings.Join(queryList, " ")
+
 		entries, err := database.QueryDB(db, queryList)
 		if err != nil {
 			return err
@@ -83,16 +79,14 @@ func commandHandler(args []string) error {
 		slog.Info("Filtering successful!", "no. of entries:", len(entries))
 		return nil
 	case "web":
-		// Connect DB
+
 		db, err := database.CreateDB(dbUrl)
 		if err != nil {
 			return nil
 		}
 
-		// Build router
 		r := web.SetupRouter(db)
 
-		// Start server
 		log.Println("Server running at http://localhost:8080")
 		r.Run(":8080")
 	default:

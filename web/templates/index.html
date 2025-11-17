@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Log Filter</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 1100px;
+
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: normal;
+            margin-bottom: 20px;
+        }
+
+        .filter-box {
+            width: 500px;
+
+            margin: 0 auto;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #000;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #000;
+            border-radius: 4px;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #eee;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #f3f3f3;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        .no-result {
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="filter-box">
+            <h2>Log Filter</h2>
+
+            <form method="POST" action="/filter">
+                <input type="text" name="filter" placeholder="Example: level=ERROR">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <h2>Filtered Results</h2>
+
+        {{ if .Error }}
+        <p class="error">{{ .Error }}</p>
+        {{ end }}
+
+        {{ if .Entries }}
+        <table>
+            <tr>
+                <th>Timestamp</th>
+                <th>Level</th>
+                <th>Component</th>
+                <th>Host</th>
+                <th>Request ID</th>
+                <th>Message</th>
+            </tr>
+
+            {{ range .Entries }}
+            <tr>
+                <td>{{ .TimeStamp }}</td>
+                <td>{{ .Level.Level }}</td>
+                <td>{{ .Component.Component }}</td>
+                <td>{{ .Host.Host }}</td>
+                <td>{{ .RequestId }}</td>
+                <td>{{ .Message }}</td>
+            </tr>
+            {{ end }}
+        </table>
+
+        {{ else }}
+        <p class="no-result">No results found.</p>
+        {{ end }}
+
+    </div>
+
+</body>
+
+</html>

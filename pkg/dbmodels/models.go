@@ -17,9 +17,9 @@ import (
 func (e Entry) String() string {
 	return fmt.Sprintf("%s : %s : %s : %s : %s : %s",
 		e.TimeStamp.Format("2006-01-02 15:04:05"),
-		e.Level.Level,         // LogLevel.Level (string)
-		e.Component.Component, // LogComponent.Component (string)
-		e.Host.Host,           // LogHost.Host (string)
+		e.Level.Level,
+		e.Component.Component,
+		e.Host.Host,
 		e.RequestId,
 		e.Message,
 	)
@@ -27,12 +27,12 @@ func (e Entry) String() string {
 
 func CreateDB(dbUrl string) (*gorm.DB, error) {
 	newLogger := logger.New(
-		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+		log.New(os.Stdout, "\r\n", log.LstdFlags),
 		logger.Config{
-			SlowThreshold:             time.Second, // Slow SQL threshold
-			LogLevel:                  logger.Info, // Log level (Silent, Error, Warn, Info)
-			IgnoreRecordNotFoundError: false,       // Ignore ErrRecordNotFound error
-			Colorful:                  true,        // Enable color
+			SlowThreshold:             time.Second,
+			LogLevel:                  logger.Info,
+			IgnoreRecordNotFoundError: false,
+			Colorful:                  true,
 		},
 	)
 
@@ -90,7 +90,6 @@ func parseQuery(parts []string) ([]queryComponent, error) {
 			return nil, fmt.Errorf("invalid condition: %s", part)
 		}
 
-		// Allow INFO|ERROR
 		rawValue := matches[r.SubexpIndex("value")]
 		rawValue = strings.ReplaceAll(rawValue, "|", ",")
 
@@ -109,7 +108,6 @@ func parseQuery(parts []string) ([]queryComponent, error) {
 func QueryDB(db *gorm.DB, query []string) ([]Entry, error) {
 	var ret []Entry
 
-	// Parse the query string
 	parsed, err := parseQuery(query)
 	if err != nil {
 		return nil, err
@@ -123,11 +121,10 @@ func QueryDB(db *gorm.DB, query []string) ([]Entry, error) {
 
 		key := strings.ToLower(c.key)
 
-		// Translate logical columns to foreign key columns
 		switch key {
 
 		case "level":
-			// Convert values INFO → levelID
+
 			var ids []uint
 			for _, v := range c.value {
 				var lvl LogLevel
@@ -164,7 +161,6 @@ func QueryDB(db *gorm.DB, query []string) ([]Entry, error) {
 			c.value = toStringSlice(ids)
 		}
 
-		// Apply WHERE condition
 		if len(c.value) == 1 {
 			q = q.Where(fmt.Sprintf("%s %s ?", c.key, c.operator), c.value[0])
 		} else {
@@ -191,20 +187,19 @@ func SplitUserFilter(input string) []string {
 	tokens := strings.Fields(input)
 
 	for _, tok := range tokens {
-		// If token contains an operator, then new condition
+
 		if strings.Contains(tok, "=") ||
 			strings.Contains(tok, ">=") ||
 			strings.Contains(tok, "<=") ||
 			strings.Contains(tok, ">") ||
 			strings.Contains(tok, "<") {
 
-			// Save previous condition
 			if current != "" {
 				parts = append(parts, current)
 			}
 			current = tok
 		} else {
-			// continuation (timestamps)
+
 			current += " " + tok
 		}
 	}
@@ -216,7 +211,6 @@ func SplitUserFilter(input string) []string {
 	return parts
 }
 
-// Helper: convert []uint → []string
 func toStringSlice(nums []uint) []string {
 	s := make([]string, len(nums))
 	for i, n := range nums {

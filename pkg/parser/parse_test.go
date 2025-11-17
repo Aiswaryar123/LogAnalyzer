@@ -95,7 +95,6 @@ func TestParseLogFilesInvalidLog(t *testing.T) {
 	tmpDir := t.TempDir()
 	tmpFile := filepath.Join(tmpDir, "invalid.log")
 
-	// invalid format line
 	err := os.WriteFile(tmpFile, []byte("invalid log line\n"), 0644)
 	if err != nil {
 		t.Fatalf("Failed to create temp invalid log file: %v", err)
