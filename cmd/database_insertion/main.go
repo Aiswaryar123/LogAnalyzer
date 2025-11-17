@@ -1,11 +1,11 @@
 package main
 
 import (
+	"Log_analyzer/database"
+	"Log_analyzer/segment"
 	"context"
 	"flag"
 	"log/slog"
-	"miniproject/database"
-	"miniproject/segment"
 	"os"
 
 	"github.com/jackc/pgx/v5"

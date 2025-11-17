@@ -1,0 +1,23 @@
+mode: set
+miniproject/parser/parse.go:14.56,18.20 4 1
+miniproject/parser/parse.go:18.20,20.3 1 1
+miniproject/parser/parse.go:21.2,22.40 2 1
+miniproject/parser/parse.go:22.40,23.17 1 1
+miniproject/parser/parse.go:23.17,25.4 1 1
+miniproject/parser/parse.go:27.2,28.16 2 1
+miniproject/parser/parse.go:28.16,30.3 1 1
+miniproject/parser/parse.go:31.2,40.20 2 1
+miniproject/parser/parse.go:42.65,45.16 3 1
+miniproject/parser/parse.go:45.16,47.3 1 1
+miniproject/parser/parse.go:48.2,48.29 1 1
+miniproject/parser/parse.go:48.29,49.19 1 1
+miniproject/parser/parse.go:49.19,50.12 1 1
+miniproject/parser/parse.go:52.3,54.17 3 1
+miniproject/parser/parse.go:54.17,56.12 2 1
+miniproject/parser/parse.go:58.3,61.22 3 1
+miniproject/parser/parse.go:61.22,64.18 3 1
+miniproject/parser/parse.go:64.18,66.5 1 1
+miniproject/parser/parse.go:68.3,69.17 2 1
+miniproject/parser/parse.go:69.17,71.4 1 0
+miniproject/parser/parse.go:72.3,72.12 1 1
+miniproject/parser/parse.go:75.2,75.24 1 1

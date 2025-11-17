@@ -1,8 +1,8 @@
 package filter
 
 import (
+	models "Log_analyzer/model"
 	"fmt"
-	models "miniproject/model"
 	"sync"
 	"time"
 )

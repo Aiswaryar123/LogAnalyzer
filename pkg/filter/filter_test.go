@@ -1,7 +1,7 @@
 package filter
 
 import (
-	models "miniproject/model"
+	models "Log_analyzer/model"
 	"testing"
 	"time"
 )

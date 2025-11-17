@@ -1,11 +1,11 @@
 package main
 
 import (
+	"Log_analyzer/pkg/segment"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"log/slog"
-	"miniproject/segment"
 	"os"
 )
 

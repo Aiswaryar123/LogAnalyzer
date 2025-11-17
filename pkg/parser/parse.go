@@ -1,8 +1,8 @@
 package parser
 
 import (
+	models "Log_analyzer/model"
 	"fmt"
-	models "miniproject/model"
 	"path/filepath"
 
 	"bufio"

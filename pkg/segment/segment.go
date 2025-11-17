@@ -6,9 +6,9 @@ import (
 	"sync"
 	"time"
 
-	indexer "miniproject/Indexer"
-	models "miniproject/model"
-	"miniproject/parser"
+	models "Log_analyzer/model"
+	indexer "Log_analyzer/pkg/Indexer"
+	"Log_analyzer/pkg/parser"
 	"os"
 	"path/filepath"
 )

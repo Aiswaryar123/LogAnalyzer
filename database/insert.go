@@ -1,9 +1,9 @@
 package database
 
 import (
+	models "Log_analyzer/model"
 	"context"
 	"log/slog"
-	models "miniproject/model"
 
 	"github.com/jackc/pgx/v5"
 )

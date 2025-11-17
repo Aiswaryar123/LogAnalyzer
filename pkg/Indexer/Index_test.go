@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	models "miniproject/model"
+	models "Log_analyzer/model"
 )
 
 func TestBuildSegmentIndex(t *testing.T) {

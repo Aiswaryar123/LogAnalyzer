@@ -1,12 +1,12 @@
 package main
 
 import (
+	models "Log_analyzer/model"
+	"Log_analyzer/pkg/filter"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"log/slog"
-	"miniproject/filter"
-	models "miniproject/model"
 	"os"
 )
 

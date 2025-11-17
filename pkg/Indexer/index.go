@@ -1,6 +1,6 @@
 package indexer
 
-import models "miniproject/model"
+import models "Log_analyzer/model"
 
 func BuildSegmentIndex(LogEntries []models.LogEntry) models.SegmentIndex {
 	Index := models.SegmentIndex{

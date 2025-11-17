@@ -1,7 +1,7 @@
 package parser
 
 import (
-	models "miniproject/model"
+	models "Log_analyzer/model"
 	"os"
 	"path/filepath"
 	"strings"
