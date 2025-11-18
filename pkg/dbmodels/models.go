@@ -218,3 +218,40 @@ func toStringSlice(nums []uint) []string {
 	}
 	return s
 }
+func GetAllLogs(db *gorm.DB) ([]Entry, error) {
+	var result []Entry
+	err := db.Preload("Level").
+		Preload("Component").
+		Preload("Host").
+		Find(&result).Error
+	return result, err
+}
+func FilterLogs(db *gorm.DB, levels, components, hosts []string, requestID, timestampCond string) ([]Entry, error) {
+	var queries []string
+
+	if len(levels) > 0 && len(levels) < 4 {
+		queries = append(queries, "level="+strings.Join(levels, "|"))
+	}
+
+	if len(components) > 0 && len(components) < 5 {
+		queries = append(queries, "component="+strings.Join(components, "|"))
+	}
+
+	if len(hosts) > 0 && len(hosts) < 5 {
+		queries = append(queries, "host="+strings.Join(hosts, "|"))
+	}
+
+	if strings.TrimSpace(requestID) != "" {
+		queries = append(queries, "request_id="+requestID)
+	}
+
+	if strings.TrimSpace(timestampCond) != "" {
+		queries = append(queries, "time_stamp "+timestampCond)
+	}
+
+	if len(queries) == 0 {
+		return GetAllLogs(db)
+	}
+
+	return QueryDB(db, queries)
+}

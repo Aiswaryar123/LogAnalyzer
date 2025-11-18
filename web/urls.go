@@ -11,6 +11,16 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	DB = db
 
 	r := gin.Default()
+	r.SetFuncMap(map[string]interface{}{
+		"contains": func(arr []string, val string) bool {
+			for _, v := range arr {
+				if v == val {
+					return true
+				}
+			}
+			return false
+		},
+	})
 
 	r.LoadHTMLGlob("web/templates/*")
 
