@@ -4,99 +4,116 @@
 <head>
     <title>Log Analyzer</title>
 
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 40px;
-            background: white;
-
+            background: #f6f6f6;
             display: flex;
             justify-content: center;
         }
 
         .container {
-            width: 1200px;
+            width: 1100px;
         }
-
 
         .main-title {
             text-align: center;
             font-weight: 900;
-            font-size: 32px;
+            font-size: 34px;
             margin-bottom: 30px;
-            text-transform: uppercase;
+            color: #222;
             letter-spacing: 1px;
         }
 
-        .filter-box {
-            width: 700px;
+        .filter-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+            padding: 30px;
+            width: 750px;
+            margin: 0 auto 40px auto;
+        }
 
-            margin: 0 auto 30px auto;
-            padding: 25px;
-            background: #fff;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #222;
+        }
+
+        details.dropdown summary {
+            padding: 12px;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .dropdown-content {
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            background: white;
         }
 
         input[type="text"] {
             width: 100%;
             padding: 12px;
-            border: 1px solid #444;
-            border-radius: 6px;
+            border-radius: 8px;
+            border: 1px solid #bbb;
             font-size: 16px;
-        }
-
-        button {
-            padding: 12px 40px;
-            border: none;
-            border-radius: 6px;
-            background: black;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background: #333;
         }
 
         .button-center {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        button {
+            background: #222;
+            color: white;
+            padding: 12px 45px;
+            font-size: 17px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         table {
             width: 100%;
+            margin-top: 25px;
             border-collapse: collapse;
-            margin-top: 20px;
             background: white;
-            border-radius: 6px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
-
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.12);
         }
 
         th,
         td {
+            padding: 12px;
             border: 1px solid #ddd;
-            padding: 10px;
         }
 
         th {
             background: #f3f3f3;
-            font-weight: bold;
-        }
-
-        .checkbox-group label {
-            margin-right: 15px;
         }
 
         .no-result {
+            text-align: center;
             color: #777;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -107,70 +124,64 @@
 
         <h2 class="main-title">LOG ANALYZER</h2>
 
-        <div class="filter-box">
+        <div class="filter-card">
 
-            <form method="POST" action="/filter">
+            <form id="SearchForm">
 
 
                 <div class="form-group">
-                    <label>Level:</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="level" value="INFO" {{ if (contains .Level "INFO" )
-                                }}checked{{ end }}> INFO</label>
-                        <label><input type="checkbox" name="level" value="WARN" {{ if (contains .Level "WARN" )
-                                }}checked{{ end }}> WARN</label>
-                        <label><input type="checkbox" name="level" value="ERROR" {{ if (contains .Level "ERROR" )
-                                }}checked{{ end }}> ERROR</label>
-                        <label><input type="checkbox" name="level" value="DEBUG" {{ if (contains .Level "DEBUG" )
-                                }}checked{{ end }}> DEBUG</label>
-                    </div>
+                    <label>Level</label>
+                    <details class="dropdown">
+                        <summary>Select Levels</summary>
+                        <div class="dropdown-content">
+                            <label><input type="checkbox" name="level" value="INFO"> INFO</label>
+                            <label><input type="checkbox" name="level" value="WARN"> WARN</label>
+                            <label><input type="checkbox" name="level" value="ERROR"> ERROR</label>
+                            <label><input type="checkbox" name="level" value="DEBUG"> DEBUG</label>
+                        </div>
+                    </details>
                 </div>
 
                 <div class="form-group">
-                    <label>Component:</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="component" value="api-server" {{ if (contains
-                                .Component "api-server" ) }}checked{{ end }}> api-server</label>
-                        <label><input type="checkbox" name="component" value="database" {{ if (contains
-                                .Component "database" ) }}checked{{ end }}> database</label>
-                        <label><input type="checkbox" name="component" value="cache" {{ if (contains .Component "cache"
-                                ) }}checked{{ end }}> cache</label>
-                        <label><input type="checkbox" name="component" value="worker" {{ if (contains
-                                .Component "worker" ) }}checked{{ end }}> worker</label>
-                        <label><input type="checkbox" name="component" value="auth" {{ if (contains .Component "auth" )
-                                }}checked{{ end }}> auth</label>
-                    </div>
+                    <label>Component</label>
+                    <details class="dropdown">
+                        <summary>Select Components</summary>
+                        <div class="dropdown-content">
+                            <label><input type="checkbox" name="component" value="api-server"> api-server</label>
+                            <label><input type="checkbox" name="component" value="database"> database</label>
+                            <label><input type="checkbox" name="component" value="cache"> cache</label>
+                            <label><input type="checkbox" name="component" value="worker"> worker</label>
+                            <label><input type="checkbox" name="component" value="auth"> auth</label>
+                        </div>
+                    </details>
                 </div>
 
 
                 <div class="form-group">
-                    <label>Host:</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="host" value="web01" {{ if (contains .Host "web01" )
-                                }}checked{{ end }}> web01</label>
-                        <label><input type="checkbox" name="host" value="web02" {{ if (contains .Host "web02" )
-                                }}checked{{ end }}> web02</label>
-                        <label><input type="checkbox" name="host" value="cache01" {{ if (contains .Host "cache01" )
-                                }}checked{{ end }}> cache01</label>
-                        <label><input type="checkbox" name="host" value="worker01" {{ if (contains .Host "worker01" )
-                                }}checked{{ end }}> worker01</label>
-                        <label><input type="checkbox" name="host" value="db01" {{ if (contains .Host "db01" )
-                                }}checked{{ end }}> db01</label>
-                    </div>
+                    <label>Host</label>
+                    <details class="dropdown">
+                        <summary>Select Hosts</summary>
+                        <div class="dropdown-content">
+                            <label><input type="checkbox" name="host" value="web01"> web01</label>
+                            <label><input type="checkbox" name="host" value="web02"> web02</label>
+                            <label><input type="checkbox" name="host" value="cache01"> cache01</label>
+                            <label><input type="checkbox" name="host" value="worker01"> worker01</label>
+                            <label><input type="checkbox" name="host" value="db01"> db01</label>
+                        </div>
+                    </details>
                 </div>
 
 
                 <div class="form-group">
-                    <label>Request ID:</label>
-                    <input type="text" name="request_id" value="{{ .RequestID }}" placeholder="Request ID">
+                    <label>Request ID</label>
+                    <input type="text" name="request_id" placeholder="Enter Request ID">
                 </div>
 
 
                 <div class="form-group">
-                    <label>Timestamp:</label>
-                    <input type="text" name="timestamp" value="{{ .Timestamp }}" placeholder=">2025-11-17 10:00:00">
+                    <label>Timestamp</label>
+                    <input type="text" name="timestamp" placeholder="> 2025-11-17 10:00:00">
                 </div>
-
 
                 <div class="button-center">
                     <button type="submit">Search</button>
@@ -179,36 +190,69 @@
             </form>
         </div>
 
-        <h2>Filtered Results</h2>
+        <h2 style="text-align:center;">Filtered Results</h2>
 
-        {{ if .Entries }}
-        <table>
-            <tr>
-                <th>Timestamp</th>
-                <th>Level</th>
-                <th>Component</th>
-                <th>Host</th>
-                <th>Request ID</th>
-                <th>Message</th>
-            </tr>
-
-            {{ range .Entries }}
-            <tr>
-                <td>{{ .TimeStamp }}</td>
-                <td>{{ .Level.Level }}</td>
-                <td>{{ .Component.Component }}</td>
-                <td>{{ .Host.Host }}</td>
-                <td>{{ .RequestId }}</td>
-                <td>{{ .Message }}</td>
-            </tr>
-            {{ end }}
-        </table>
-
-        {{ else }}
-        <p class="no-result">No results found.</p>
-        {{ end }}
+        <div id="loading" style="display:none;">Loading...</div>
+        <div id="errorBox"></div>
+        <div id="resultBox"></div>
 
     </div>
+
+
+    <script>
+        $(document).ready(function () {
+
+            $("#SearchForm").submit(function (event) {
+                event.preventDefault();
+
+                $("#loading").show();
+                $("#resultBox").html("");
+
+                $.ajax({
+                    url: "/filter",
+                    method: "POST",
+                    data: $(this).serialize(),
+
+
+                    success: function (response) {
+                        $("#loading").hide();
+
+                        if (response.entries.length === 0) {
+                            $("#resultBox").html("<p class='no-result'>No results found.</p>");
+                            return;
+                        }
+
+                        let table = `
+                        <table>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Level</th>
+                                <th>Component</th>
+                                <th>Host</th>
+                                <th>Request ID</th>
+                                <th>Message</th>
+                            </tr>
+                        `;
+
+                        response.entries.forEach(function (e) {
+                            table += `
+                            <tr>
+                                <td>${e.TimeStamp}</td>
+                                <td>${e.Level.Level}</td>
+                                <td>${e.Component.Component}</td>
+                                <td>${e.Host.Host}</td>
+                                <td>${e.RequestId}</td>
+                                <td>${e.Message}</td>
+                            </tr>`;
+                        });
+
+                        table += "</table>";
+                        $("#resultBox").html(table);
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 

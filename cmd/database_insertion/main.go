@@ -2,7 +2,7 @@ package main
 
 import (
 	"Log_analyzer/database"
-	"Log_analyzer/segment"
+	"Log_analyzer/pkg/segment"
 	"context"
 	"flag"
 	"log/slog"
