@@ -22,13 +22,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	})
 	r.Use(CORSMiddleware())
 	r.POST("/filter", FilterPaginatedLogs)
-	// Load templates
-	//r.LoadHTMLGlob("pkg/web/templates/*")
-	// Routes
-	//r.GET("/", ShowAllLogs)
-	// r.POST("/filter", RunFilter)
-	// r.GET("/hello", Hello)
-	// r.POST("/search", RunFilter1)
+
 	return r
 }
 func CORSMiddleware() gin.HandlerFunc {
@@ -37,7 +31,7 @@ func CORSMiddleware() gin.HandlerFunc {
 		c.Header("Access-Control-Allow-Credentials", "true")
 		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
 		c.Header("Access-Control-Allow-Methods", "POST,HEAD,PATCH, OPTIONS, GET, PUT")
-		//disable caching
+
 		c.Header("Cache-Control", "no-store")
 		c.Header("Pragma", "no-cache")
 		c.Header("Expires", "0")
